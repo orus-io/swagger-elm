@@ -77,14 +77,14 @@ function A9(fun, a, b, c, d, e, f, g, h, i) {
   return fun.a === 9 ? fun.f(a, b, c, d, e, f, g, h, i) : fun(a)(b)(c)(d)(e)(f)(g)(h)(i);
 }
 
-console.warn('Compiled in DEV mode. Follow the advice at https://elm-lang.org/0.19.1/optimize for better performance and smaller assets.');
 
 
-var _List_Nil_UNUSED = { $: 0 };
-var _List_Nil = { $: '[]' };
 
-function _List_Cons_UNUSED(hd, tl) { return { $: 1, a: hd, b: tl }; }
-function _List_Cons(hd, tl) { return { $: '::', a: hd, b: tl }; }
+var _List_Nil = { $: 0 };
+var _List_Nil_UNUSED = { $: '[]' };
+
+function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
 
 
 var _List_cons = F2(_List_Cons);
@@ -315,12 +315,12 @@ var _JsArray_appendN = F3(function(n, dest, source)
 
 // LOG
 
-var _Debug_log_UNUSED = F2(function(tag, value)
+var _Debug_log = F2(function(tag, value)
 {
 	return value;
 });
 
-var _Debug_log = F2(function(tag, value)
+var _Debug_log_UNUSED = F2(function(tag, value)
 {
 	console.log(tag + ': ' + _Debug_toString(value));
 	return value;
@@ -346,12 +346,12 @@ function _Debug_todoCase(moduleName, region, value)
 
 // TO STRING
 
-function _Debug_toString_UNUSED(value)
+function _Debug_toString(value)
 {
 	return '<internals>';
 }
 
-function _Debug_toString(value)
+function _Debug_toString_UNUSED(value)
 {
 	return _Debug_toAnsiString(false, value);
 }
@@ -536,13 +536,13 @@ function _Debug_toHexDigit(n)
 // CRASH
 
 
-function _Debug_crash_UNUSED(identifier)
+function _Debug_crash(identifier)
 {
 	throw new Error('https://github.com/elm/core/blob/1.0.0/hints/' + identifier + '.md');
 }
 
 
-function _Debug_crash(identifier, fact1, fact2, fact3, fact4)
+function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 {
 	switch(identifier)
 	{
@@ -600,11 +600,11 @@ function _Debug_crash(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.start.line === region.end.line)
+	if (region.M.D === region.T.D)
 	{
-		return 'on line ' + region.start.line;
+		return 'on line ' + region.M.D;
 	}
-	return 'on lines ' + region.start.line + ' through ' + region.end.line;
+	return 'on lines ' + region.M.D + ' through ' + region.T.D;
 }
 
 
@@ -642,7 +642,7 @@ function _Utils_eqHelp(x, y, depth, stack)
 		return true;
 	}
 
-	/**/
+	/**_UNUSED/
 	if (x.$ === 'Set_elm_builtin')
 	{
 		x = $elm$core$Set$toList(x);
@@ -655,7 +655,7 @@ function _Utils_eqHelp(x, y, depth, stack)
 	}
 	//*/
 
-	/**_UNUSED/
+	/**/
 	if (x.$ < 0)
 	{
 		x = $elm$core$Dict$toList(x);
@@ -690,7 +690,7 @@ function _Utils_cmp(x, y, ord)
 		return x === y ? /*EQ*/ 0 : x < y ? /*LT*/ -1 : /*GT*/ 1;
 	}
 
-	/**/
+	/**_UNUSED/
 	if (x instanceof String)
 	{
 		var a = x.valueOf();
@@ -699,10 +699,10 @@ function _Utils_cmp(x, y, ord)
 	}
 	//*/
 
-	/**_UNUSED/
+	/**/
 	if (typeof x.$ === 'undefined')
 	//*/
-	/**/
+	/**_UNUSED/
 	if (x.$[0] === '#')
 	//*/
 	{
@@ -732,17 +732,17 @@ var _Utils_compare = F2(function(x, y)
 
 // COMMON VALUES
 
-var _Utils_Tuple0_UNUSED = 0;
-var _Utils_Tuple0 = { $: '#0' };
+var _Utils_Tuple0 = 0;
+var _Utils_Tuple0_UNUSED = { $: '#0' };
 
-function _Utils_Tuple2_UNUSED(a, b) { return { a: a, b: b }; }
-function _Utils_Tuple2(a, b) { return { $: '#2', a: a, b: b }; }
+function _Utils_Tuple2(a, b) { return { a: a, b: b }; }
+function _Utils_Tuple2_UNUSED(a, b) { return { $: '#2', a: a, b: b }; }
 
-function _Utils_Tuple3_UNUSED(a, b, c) { return { a: a, b: b, c: c }; }
-function _Utils_Tuple3(a, b, c) { return { $: '#3', a: a, b: b, c: c }; }
+function _Utils_Tuple3(a, b, c) { return { a: a, b: b, c: c }; }
+function _Utils_Tuple3_UNUSED(a, b, c) { return { $: '#3', a: a, b: b, c: c }; }
 
-function _Utils_chr_UNUSED(c) { return c; }
-function _Utils_chr(c) { return new String(c); }
+function _Utils_chr(c) { return c; }
+function _Utils_chr_UNUSED(c) { return new String(c); }
 
 
 // RECORDS
@@ -1212,7 +1212,7 @@ function _Char_toLocaleLower(char)
 
 
 
-/**/
+/**_UNUSED/
 function _Json_errorToString(error)
 {
 	return $elm$json$Json$Decode$errorToString(error);
@@ -1616,11 +1616,11 @@ var _Json_encode = F2(function(indentLevel, value)
 	return JSON.stringify(_Json_unwrap(value), null, indentLevel) + '';
 });
 
-function _Json_wrap(value) { return { $: 0, a: value }; }
-function _Json_unwrap(value) { return value.a; }
+function _Json_wrap_UNUSED(value) { return { $: 0, a: value }; }
+function _Json_unwrap_UNUSED(value) { return value.a; }
 
-function _Json_wrap_UNUSED(value) { return value; }
-function _Json_unwrap_UNUSED(value) { return value; }
+function _Json_wrap(value) { return value; }
+function _Json_unwrap(value) { return value; }
 
 function _Json_emptyArray() { return []; }
 function _Json_emptyObject() { return {}; }
@@ -1650,8 +1650,8 @@ var _Regex_never = /.^/;
 var _Regex_fromStringWith = F2(function(options, string)
 {
 	var flags = 'g';
-	if (options.multiline) { flags += 'm'; }
-	if (options.caseInsensitive) { flags += 'i'; }
+	if (options.aT) { flags += 'm'; }
+	if (options.aG) { flags += 'i'; }
 
 	try
 	{
@@ -1958,9 +1958,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.init,
-		impl.update,
-		impl.subscriptions,
+		impl.aQ,
+		impl.a1,
+		impl.a$,
 		function() { return function() {} }
 	);
 });
@@ -1973,7 +1973,7 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 function _Platform_initialize(flagDecoder, args, init, update, subscriptions, stepperBuilder)
 {
 	var result = A2(_Json_run, flagDecoder, _Json_wrap(args ? args['flags'] : undefined));
-	$elm$core$Result$isOk(result) || _Debug_crash(2 /**/, _Json_errorToString(result.a) /**/);
+	$elm$core$Result$isOk(result) || _Debug_crash(2 /**_UNUSED/, _Json_errorToString(result.a) /**/);
 	var managers = {};
 	var initPair = init(result.a);
 	var model = initPair.a;
@@ -2417,7 +2417,7 @@ function _Platform_setupIncomingPort(name, sendToApp)
 //
 
 
-function _Platform_export_UNUSED(exports)
+function _Platform_export(exports)
 {
 	scope['Elm']
 		? _Platform_mergeExportsProd(scope['Elm'], exports)
@@ -2438,7 +2438,7 @@ function _Platform_mergeExportsProd(obj, exports)
 }
 
 
-function _Platform_export(exports)
+function _Platform_export_UNUSED(exports)
 {
 	scope['Elm']
 		? _Platform_mergeExportsDebug('Elm', scope['Elm'], exports)
@@ -2457,8 +2457,8 @@ function _Platform_mergeExportsDebug(moduleName, obj, exports)
 			: (obj[name] = exports[name]);
 	}
 }
-var $elm$core$Basics$EQ = {$: 'EQ'};
-var $elm$core$Basics$LT = {$: 'LT'};
+var $elm$core$Basics$EQ = 1;
+var $elm$core$Basics$LT = 0;
 var $elm$core$List$cons = _List_cons;
 var $elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var $elm$core$Array$foldr = F3(
@@ -2467,7 +2467,7 @@ var $elm$core$Array$foldr = F3(
 		var tail = _v0.d;
 		var helper = F2(
 			function (node, acc) {
-				if (node.$ === 'SubTree') {
+				if (!node.$) {
 					var subTree = node.a;
 					return A3($elm$core$Elm$JsArray$foldr, helper, acc, subTree);
 				} else {
@@ -2488,7 +2488,7 @@ var $elm$core$Dict$foldr = F3(
 	function (func, acc, t) {
 		foldr:
 		while (true) {
-			if (t.$ === 'RBEmpty_elm_builtin') {
+			if (t.$ === -2) {
 				return acc;
 			} else {
 				var key = t.b;
@@ -2533,10 +2533,10 @@ var $elm$core$Dict$keys = function (dict) {
 		dict);
 };
 var $elm$core$Set$toList = function (_v0) {
-	var dict = _v0.a;
+	var dict = _v0;
 	return $elm$core$Dict$keys(dict);
 };
-var $elm$core$Basics$GT = {$: 'GT'};
+var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$always = F2(
 	function (a, _v0) {
 		return a;
@@ -2551,32 +2551,32 @@ var $elm$core$Basics$composeR = F3(
 			f(x));
 	});
 var $elm$core$Result$Err = function (a) {
-	return {$: 'Err', a: a};
+	return {$: 1, a: a};
 };
 var $elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
-		return {$: 'Failure', a: a, b: b};
+		return {$: 3, a: a, b: b};
 	});
 var $elm$json$Json$Decode$Field = F2(
 	function (a, b) {
-		return {$: 'Field', a: a, b: b};
+		return {$: 0, a: a, b: b};
 	});
 var $elm$json$Json$Decode$Index = F2(
 	function (a, b) {
-		return {$: 'Index', a: a, b: b};
+		return {$: 1, a: a, b: b};
 	});
 var $elm$core$Result$Ok = function (a) {
-	return {$: 'Ok', a: a};
+	return {$: 0, a: a};
 };
 var $elm$json$Json$Decode$OneOf = function (a) {
-	return {$: 'OneOf', a: a};
+	return {$: 2, a: a};
 };
-var $elm$core$Basics$False = {$: 'False'};
+var $elm$core$Basics$False = 1;
 var $elm$core$Basics$add = _Basics_add;
 var $elm$core$Maybe$Just = function (a) {
-	return {$: 'Just', a: a};
+	return {$: 0, a: a};
 };
-var $elm$core$Maybe$Nothing = {$: 'Nothing'};
+var $elm$core$Maybe$Nothing = {$: 1};
 var $elm$core$String$all = _String_all;
 var $elm$core$Basics$and = _Basics_and;
 var $elm$core$Basics$append = _Utils_append;
@@ -2701,12 +2701,12 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 		errorToStringHelp:
 		while (true) {
 			switch (error.$) {
-				case 'Field':
+				case 0:
 					var f = error.a;
 					var err = error.b;
 					var isSimple = function () {
 						var _v1 = $elm$core$String$uncons(f);
-						if (_v1.$ === 'Nothing') {
+						if (_v1.$ === 1) {
 							return false;
 						} else {
 							var _v2 = _v1.a;
@@ -2721,7 +2721,7 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 					error = $temp$error;
 					context = $temp$context;
 					continue errorToStringHelp;
-				case 'Index':
+				case 1:
 					var i = error.a;
 					var err = error.b;
 					var indexName = '[' + ($elm$core$String$fromInt(i) + ']');
@@ -2730,7 +2730,7 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 					error = $temp$error;
 					context = $temp$context;
 					continue errorToStringHelp;
-				case 'OneOf':
+				case 2:
 					var errors = error.a;
 					if (!errors.b) {
 						return 'Ran into a Json.Decode.oneOf with no possibilities' + function () {
@@ -2794,7 +2794,7 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 var $elm$core$Array$branchFactor = 32;
 var $elm$core$Array$Array_elm_builtin = F4(
 	function (a, b, c, d) {
-		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
+		return {$: 0, a: a, b: b, c: c, d: d};
 	});
 var $elm$core$Elm$JsArray$empty = _JsArray_empty;
 var $elm$core$Basics$ceiling = _Basics_ceiling;
@@ -2809,7 +2809,7 @@ var $elm$core$Array$shiftStep = $elm$core$Basics$ceiling(
 var $elm$core$Array$empty = A4($elm$core$Array$Array_elm_builtin, 0, $elm$core$Array$shiftStep, $elm$core$Elm$JsArray$empty, $elm$core$Elm$JsArray$empty);
 var $elm$core$Elm$JsArray$initialize = _JsArray_initialize;
 var $elm$core$Array$Leaf = function (a) {
-	return {$: 'Leaf', a: a};
+	return {$: 1, a: a};
 };
 var $elm$core$Basics$apL = F2(
 	function (f, x) {
@@ -2825,7 +2825,7 @@ var $elm$core$Basics$max = F2(
 	});
 var $elm$core$Basics$mul = _Basics_mul;
 var $elm$core$Array$SubTree = function (a) {
-	return {$: 'SubTree', a: a};
+	return {$: 0, a: a};
 };
 var $elm$core$Elm$JsArray$initializeFromList = _JsArray_initializeFromList;
 var $elm$core$Array$compressNodes = F2(
@@ -2872,25 +2872,25 @@ var $elm$core$Array$treeFromBuilder = F2(
 	});
 var $elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
-		if (!builder.nodeListSize) {
+		if (!builder.e) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.tail),
+				$elm$core$Elm$JsArray$length(builder.g),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.tail);
+				builder.g);
 		} else {
-			var treeLen = builder.nodeListSize * $elm$core$Array$branchFactor;
+			var treeLen = builder.e * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.nodeList) : builder.nodeList;
-			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.nodeListSize);
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.h) : builder.h;
+			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.e);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.tail) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.g) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.tail);
+				builder.g);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -2903,7 +2903,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{nodeList: nodeList, nodeListSize: (len / $elm$core$Array$branchFactor) | 0, tail: tail});
+					{h: nodeList, e: (len / $elm$core$Array$branchFactor) | 0, g: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -2933,9 +2933,9 @@ var $elm$core$Array$initialize = F2(
 			return A5($elm$core$Array$initializeHelp, fn, initialFromIndex, len, _List_Nil, tail);
 		}
 	});
-var $elm$core$Basics$True = {$: 'True'};
+var $elm$core$Basics$True = 0;
 var $elm$core$Result$isOk = function (result) {
-	if (result.$ === 'Ok') {
+	if (!result.$) {
 		return true;
 	} else {
 		return false;
@@ -2943,28 +2943,26 @@ var $elm$core$Result$isOk = function (result) {
 };
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
 var $author$project$Swagger$Swagger$Swagger = function (definitions) {
-	return {definitions: definitions};
+	return {aJ: definitions};
 };
 var $elm$json$Json$Decode$succeed = _Json_succeed;
 var $author$project$Swagger$Decode$decode = $elm$json$Json$Decode$succeed;
 var $author$project$Swagger$Type$Array_ = function (a) {
-	return {$: 'Array_', a: a};
+	return {$: 1, a: a};
 };
 var $author$project$Swagger$Type$Bool_ = function (a) {
-	return {$: 'Bool_', a: a};
+	return {$: 7, a: a};
 };
 var $author$project$Swagger$Type$Float_ = function (a) {
-	return {$: 'Float_', a: a};
+	return {$: 6, a: a};
 };
 var $author$project$Swagger$Type$Int_ = function (a) {
-	return {$: 'Int_', a: a};
+	return {$: 5, a: a};
 };
 var $elm$core$Basics$identity = function (x) {
 	return x;
 };
-var $author$project$Swagger$Type$Items = function (a) {
-	return {$: 'Items', a: a};
-};
+var $author$project$Swagger$Type$Items = $elm$core$Basics$identity;
 var $elm$json$Json$Decode$andThen = _Json_andThen;
 var $elm$core$Basics$composeL = F3(
 	function (g, f, x) {
@@ -3010,13 +3008,13 @@ var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optionalDecoder = F3
 		};
 		var handleResult = function (input) {
 			var _v0 = A2($elm$json$Json$Decode$decodeValue, pathDecoder, input);
-			if (_v0.$ === 'Ok') {
+			if (!_v0.$) {
 				var rawValue = _v0.a;
 				var _v1 = A2(
 					$elm$json$Json$Decode$decodeValue,
 					nullOr(valDecoder),
 					rawValue);
-				if (_v1.$ === 'Ok') {
+				if (!_v1.$) {
 					var finalResult = _v1.a;
 					return $elm$json$Json$Decode$succeed(finalResult);
 				} else {
@@ -3060,11 +3058,11 @@ var $author$project$Swagger$Decode$decodePrimitive = function (constructor) {
 			$author$project$Swagger$Decode$decode($elm$core$Basics$identity)));
 };
 var $author$project$Swagger$Type$Ref_ = function (a) {
-	return {$: 'Ref_', a: a};
+	return {$: 8, a: a};
 };
 var $elm$core$Maybe$andThen = F2(
 	function (callback, maybeValue) {
-		if (maybeValue.$ === 'Just') {
+		if (!maybeValue.$) {
 			var value = maybeValue.a;
 			return callback(value);
 		} else {
@@ -3073,7 +3071,7 @@ var $elm$core$Maybe$andThen = F2(
 	});
 var $elm$regex$Regex$Match = F4(
 	function (match, index, number, submatches) {
-		return {index: index, match: match, number: number, submatches: submatches};
+		return {aP: index, aS: match, aV: number, a_: submatches};
 	});
 var $elm$regex$Regex$findAtMost = _Regex_findAtMost;
 var $elm$core$List$head = function (list) {
@@ -3089,13 +3087,13 @@ var $elm$regex$Regex$fromStringWith = _Regex_fromStringWith;
 var $elm$regex$Regex$fromString = function (string) {
 	return A2(
 		$elm$regex$Regex$fromStringWith,
-		{caseInsensitive: false, multiline: false},
+		{aG: false, aT: false},
 		string);
 };
 var $elm$regex$Regex$never = _Regex_never;
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
+		if (!maybe.$) {
 			var value = maybe.a;
 			return value;
 		} else {
@@ -3113,7 +3111,7 @@ var $author$project$Swagger$Decode$extractRef = function (ref) {
 			$elm$core$Basics$composeL,
 			$elm$core$List$head,
 			function ($) {
-				return $.submatches;
+				return $.a_;
 			}),
 		$elm$core$List$head(
 			A3(
@@ -3121,7 +3119,7 @@ var $author$project$Swagger$Decode$extractRef = function (ref) {
 				1,
 				$author$project$Swagger$Decode$regex('^#/definitions/(.+)$'),
 				ref)));
-	if ((parsed.$ === 'Just') && (parsed.a.$ === 'Just')) {
+	if ((!parsed.$) && (!parsed.a.$)) {
 		var ref_ = parsed.a.a;
 		return $elm$json$Json$Decode$succeed(ref_);
 	} else {
@@ -3159,14 +3157,14 @@ var $elm$core$Tuple$pair = F2(
 	});
 var $author$project$Swagger$Type$Enum_ = F2(
 	function (a, b) {
-		return {$: 'Enum_', a: a, b: b};
+		return {$: 4, a: a, b: b};
 	});
 var $author$project$Swagger$Type$String_ = function (a) {
-	return {$: 'String_', a: a};
+	return {$: 3, a: a};
 };
 var $author$project$Swagger$Decode$stringOrEnum = F2(
 	function (_default, _enum) {
-		if (_enum.$ === 'Nothing') {
+		if (_enum.$ === 1) {
 			return $author$project$Swagger$Type$String_(_default);
 		} else {
 			var value = _enum.a;
@@ -3190,17 +3188,15 @@ var $elm$json$Json$Decode$lazy = function (thunk) {
 	return A2(
 		$elm$json$Json$Decode$andThen,
 		thunk,
-		$elm$json$Json$Decode$succeed(_Utils_Tuple0));
+		$elm$json$Json$Decode$succeed(0));
 };
 var $author$project$Swagger$Type$Dict_ = function (a) {
-	return {$: 'Dict_', a: a};
+	return {$: 2, a: a};
 };
 var $author$project$Swagger$Type$Object_ = function (a) {
-	return {$: 'Object_', a: a};
+	return {$: 0, a: a};
 };
-var $author$project$Swagger$Type$Properties = function (a) {
-	return {$: 'Properties', a: a};
-};
+var $author$project$Swagger$Type$Properties = $elm$core$Basics$identity;
 var $elm$core$List$foldrHelper = F4(
 	function (fn, acc, ctr, ls) {
 		if (!ls.b) {
@@ -3272,15 +3268,15 @@ var $elm$core$List$map = F2(
 	});
 var $author$project$Swagger$Type$Default = F3(
 	function (a, b, c) {
-		return {$: 'Default', a: a, b: b, c: c};
+		return {$: 2, a: a, b: b, c: c};
 	});
 var $author$project$Swagger$Type$Optional = F2(
 	function (a, b) {
-		return {$: 'Optional', a: a, b: b};
+		return {$: 1, a: a, b: b};
 	});
 var $author$project$Swagger$Type$Required = F2(
 	function (a, b) {
-		return {$: 'Required', a: a, b: b};
+		return {$: 0, a: a, b: b};
 	});
 var $elm$core$List$any = F2(
 	function (isOkay, list) {
@@ -3307,36 +3303,36 @@ var $author$project$Swagger$Type$getDefault = function (type_) {
 	_v0$5:
 	while (true) {
 		switch (type_.$) {
-			case 'String_':
-				if (type_.a.$ === 'Just') {
+			case 3:
+				if (!type_.a.$) {
 					var _default = type_.a.a;
 					return $elm$core$Maybe$Just(_default);
 				} else {
 					break _v0$5;
 				}
-			case 'Int_':
-				if (type_.a.$ === 'Just') {
+			case 5:
+				if (!type_.a.$) {
 					var _default = type_.a.a;
 					return $elm$core$Maybe$Just(_default);
 				} else {
 					break _v0$5;
 				}
-			case 'Float_':
-				if (type_.a.$ === 'Just') {
+			case 6:
+				if (!type_.a.$) {
 					var _default = type_.a.a;
 					return $elm$core$Maybe$Just(_default);
 				} else {
 					break _v0$5;
 				}
-			case 'Bool_':
-				if (type_.a.$ === 'Just') {
+			case 7:
+				if (!type_.a.$) {
 					var _default = type_.a.a;
 					return $elm$core$Maybe$Just(_default);
 				} else {
 					break _v0$5;
 				}
-			case 'Enum_':
-				if (type_.a.$ === 'Just') {
+			case 4:
+				if (!type_.a.$) {
 					var _default = type_.a.a;
 					return $elm$core$Maybe$Just(_default);
 				} else {
@@ -3360,7 +3356,7 @@ var $author$project$Swagger$Decode$property = F2(
 			return A2($author$project$Swagger$Type$Required, name, type_);
 		} else {
 			var _v2 = $author$project$Swagger$Type$getDefault(type_);
-			if (_v2.$ === 'Just') {
+			if (!_v2.$) {
 				var _default = _v2.a;
 				return A3($author$project$Swagger$Type$Default, name, type_, _default);
 			} else {
@@ -3373,23 +3369,21 @@ var $author$project$Swagger$Decode$objectOrDict = function (_v0) {
 	var properties = _v0.b;
 	var additionalProperties = _v0.c;
 	var _v1 = _Utils_Tuple2(properties, additionalProperties);
-	if (_v1.a.$ === 'Nothing') {
-		if (_v1.b.$ === 'Just') {
+	if (_v1.a.$ === 1) {
+		if (!_v1.b.$) {
 			var _v2 = _v1.a;
 			var addProps = _v1.b.a;
 			return $author$project$Swagger$Type$Dict_(addProps);
 		} else {
-			return $author$project$Swagger$Type$Object_(
-				$author$project$Swagger$Type$Properties(_List_Nil));
+			return $author$project$Swagger$Type$Object_(_List_Nil);
 		}
 	} else {
 		var props = _v1.a.a;
 		return $author$project$Swagger$Type$Object_(
-			$author$project$Swagger$Type$Properties(
-				A2(
-					$elm$core$List$map,
-					$author$project$Swagger$Decode$property(required),
-					props)));
+			A2(
+				$elm$core$List$map,
+				$author$project$Swagger$Decode$property(required),
+				props));
 	}
 };
 var $author$project$Swagger$Decode$trio = F3(
@@ -3399,7 +3393,7 @@ var $author$project$Swagger$Decode$trio = F3(
 var $author$project$Swagger$Decode$decodeTypeByType = function (_v0) {
 	var type_ = _v0.a;
 	var ref = _v0.b;
-	if (ref.$ === 'Just') {
+	if (!ref.$) {
 		var ref_ = ref.a;
 		return $author$project$Swagger$Decode$decodeRef;
 	} else {
@@ -3422,7 +3416,7 @@ var $author$project$Swagger$Decode$decodeTypeByType = function (_v0) {
 function $author$project$Swagger$Decode$cyclic$decodeArray() {
 	return A2(
 		$elm$json$Json$Decode$map,
-		A2($elm$core$Basics$composeL, $author$project$Swagger$Type$Array_, $author$project$Swagger$Type$Items),
+		A2($elm$core$Basics$composeL, $author$project$Swagger$Type$Array_, $elm$core$Basics$identity),
 		A3(
 			$NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 			'items',
@@ -3476,43 +3470,38 @@ function $author$project$Swagger$Decode$cyclic$decodeType() {
 						$author$project$Swagger$Decode$decode($elm$core$Tuple$pair))));
 		});
 }
-try {
-	var $author$project$Swagger$Decode$decodeArray = $author$project$Swagger$Decode$cyclic$decodeArray();
-	$author$project$Swagger$Decode$cyclic$decodeArray = function () {
-		return $author$project$Swagger$Decode$decodeArray;
-	};
-	var $author$project$Swagger$Decode$decodeObject = $author$project$Swagger$Decode$cyclic$decodeObject();
-	$author$project$Swagger$Decode$cyclic$decodeObject = function () {
-		return $author$project$Swagger$Decode$decodeObject;
-	};
-	var $author$project$Swagger$Decode$decodeType = $author$project$Swagger$Decode$cyclic$decodeType();
-	$author$project$Swagger$Decode$cyclic$decodeType = function () {
-		return $author$project$Swagger$Decode$decodeType;
-	};
-} catch ($) {
-	throw 'Some top-level definitions from `Swagger.Decode` are causing infinite recursion:\n\n  ┌─────┐\n  │    decodeArray\n  │     ↓\n  │    decodeObject\n  │     ↓\n  │    decodeType\n  │     ↓\n  │    decodeTypeByType\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.1/bad-recursion to learn how to fix it!';}
+var $author$project$Swagger$Decode$decodeArray = $author$project$Swagger$Decode$cyclic$decodeArray();
+$author$project$Swagger$Decode$cyclic$decodeArray = function () {
+	return $author$project$Swagger$Decode$decodeArray;
+};
+var $author$project$Swagger$Decode$decodeObject = $author$project$Swagger$Decode$cyclic$decodeObject();
+$author$project$Swagger$Decode$cyclic$decodeObject = function () {
+	return $author$project$Swagger$Decode$decodeObject;
+};
+var $author$project$Swagger$Decode$decodeType = $author$project$Swagger$Decode$cyclic$decodeType();
+$author$project$Swagger$Decode$cyclic$decodeType = function () {
+	return $author$project$Swagger$Decode$decodeType;
+};
 var $author$project$Swagger$Definition$Definition = F2(
 	function (a, b) {
-		return {$: 'Definition', a: a, b: b};
+		return {$: 0, a: a, b: b};
 	});
 var $author$project$Swagger$Definition$NestedDefinition = F3(
 	function (a, b, c) {
-		return {$: 'NestedDefinition', a: a, b: b, c: c};
+		return {$: 1, a: a, b: b, c: c};
 	});
 var $author$project$Swagger$Definition$definition = F3(
 	function (parentNames, name, type_) {
-		if (parentNames.$ === 'Nothing') {
+		if (parentNames.$ === 1) {
 			return A2($author$project$Swagger$Definition$Definition, name, type_);
 		} else {
 			var parents = parentNames.a;
 			return A3($author$project$Swagger$Definition$NestedDefinition, parents, name, type_);
 		}
 	});
-var $author$project$Swagger$Definition$Definitions = function (a) {
-	return {$: 'Definitions', a: a};
-};
+var $author$project$Swagger$Definition$Definitions = $elm$core$Basics$identity;
 var $author$project$Swagger$Definition$definitions = function (defs) {
-	return $author$project$Swagger$Definition$Definitions(defs);
+	return defs;
 };
 var $author$project$Swagger$Decode$decodeTypes = A2(
 	$elm$json$Json$Decode$map,
@@ -3533,10 +3522,10 @@ var $author$project$Swagger$Decode$decodeSwagger = A3(
 	$author$project$Swagger$Decode$decode($author$project$Swagger$Swagger$Swagger));
 var $author$project$Swagger$Type$getPropertyName = function (prop) {
 	switch (prop.$) {
-		case 'Required':
+		case 0:
 			var name = prop.a;
 			return name;
-		case 'Optional':
+		case 1:
 			var name = prop.a;
 			return name;
 		default:
@@ -3546,10 +3535,10 @@ var $author$project$Swagger$Type$getPropertyName = function (prop) {
 };
 var $author$project$Swagger$Type$getPropertyType = function (prop) {
 	switch (prop.$) {
-		case 'Required':
+		case 0:
 			var type_ = prop.b;
 			return type_;
-		case 'Optional':
+		case 1:
 			var type_ = prop.b;
 			return type_;
 		default:
@@ -3559,18 +3548,17 @@ var $author$project$Swagger$Type$getPropertyType = function (prop) {
 };
 var $author$project$Swagger$Definition$prepend = F2(
 	function (def, _v0) {
-		var defs = _v0.a;
-		return $author$project$Swagger$Definition$Definitions(
-			A2($elm$core$List$cons, def, defs));
+		var defs = _v0;
+		return A2($elm$core$List$cons, def, defs);
 	});
 var $author$project$Swagger$Flatten$flattenItems = F3(
 	function (parentNames, _v2, definitions) {
-		var type_ = _v2.a;
+		var type_ = _v2;
 		return A4($author$project$Swagger$Flatten$flattenType, parentNames, 'Item', type_, definitions);
 	});
 var $author$project$Swagger$Flatten$flattenProperties = F3(
 	function (parentNames, _v1, definitions) {
-		var props = _v1.a;
+		var props = _v1;
 		return A3(
 			$elm$core$List$foldl,
 			$author$project$Swagger$Flatten$flattenProperty(parentNames),
@@ -3598,15 +3586,15 @@ var $author$project$Swagger$Flatten$flattenType = F4(
 					type_));
 			var childParentNames = A2($elm$core$List$cons, name, parentNames);
 			switch (type_.$) {
-				case 'Object_':
+				case 0:
 					var props = type_.a;
 					return prependSelf(
 						A3($author$project$Swagger$Flatten$flattenProperties, childParentNames, props, definitions));
-				case 'Array_':
+				case 1:
 					var items = type_.a;
 					return prependSelf(
 						A3($author$project$Swagger$Flatten$flattenItems, childParentNames, items, definitions));
-				case 'Dict_':
+				case 2:
 					var typename = type_.a;
 					var $temp$parentNames = childParentNames,
 						$temp$name = 'Property',
@@ -3617,15 +3605,15 @@ var $author$project$Swagger$Flatten$flattenType = F4(
 					type_ = $temp$type_;
 					definitions = $temp$definitions;
 					continue flattenType;
-				case 'Enum_':
+				case 4:
 					return prependSelf(definitions);
-				case 'String_':
+				case 3:
 					return definitions;
-				case 'Int_':
+				case 5:
 					return definitions;
-				case 'Float_':
+				case 6:
 					return definitions;
-				case 'Bool_':
+				case 7:
 					return definitions;
 				default:
 					return definitions;
@@ -3633,7 +3621,7 @@ var $author$project$Swagger$Flatten$flattenType = F4(
 		}
 	});
 var $author$project$Swagger$Definition$getName = function (def) {
-	if (def.$ === 'Definition') {
+	if (!def.$) {
 		var name = def.a;
 		return name;
 	} else {
@@ -3642,7 +3630,7 @@ var $author$project$Swagger$Definition$getName = function (def) {
 	}
 };
 var $author$project$Swagger$Definition$getType = function (def) {
-	if (def.$ === 'Definition') {
+	if (!def.$) {
 		var type_ = def.b;
 		return type_;
 	} else {
@@ -3656,7 +3644,7 @@ var $author$project$Swagger$Flatten$flattenEachRoot = F2(
 		var newDefinitions = function () {
 			var _v0 = $author$project$Swagger$Definition$getType(definition);
 			switch (_v0.$) {
-				case 'Object_':
+				case 0:
 					var props = _v0.a;
 					return A3(
 						$author$project$Swagger$Flatten$flattenProperties,
@@ -3664,7 +3652,7 @@ var $author$project$Swagger$Flatten$flattenEachRoot = F2(
 							[name]),
 						props,
 						definitions);
-				case 'Array_':
+				case 1:
 					var items = _v0.a;
 					return A3(
 						$author$project$Swagger$Flatten$flattenItems,
@@ -3672,7 +3660,7 @@ var $author$project$Swagger$Flatten$flattenEachRoot = F2(
 							[name]),
 						items,
 						definitions);
-				case 'Dict_':
+				case 2:
 					var type_ = _v0.a;
 					return A4(
 						$author$project$Swagger$Flatten$flattenType,
@@ -3681,15 +3669,15 @@ var $author$project$Swagger$Flatten$flattenEachRoot = F2(
 						'Property',
 						type_,
 						definitions);
-				case 'Enum_':
+				case 4:
 					return definitions;
-				case 'String_':
+				case 3:
 					return definitions;
-				case 'Int_':
+				case 5:
 					return definitions;
-				case 'Float_':
+				case 6:
 					return definitions;
-				case 'Bool_':
+				case 7:
 					return definitions;
 				default:
 					return definitions;
@@ -3699,22 +3687,22 @@ var $author$project$Swagger$Flatten$flattenEachRoot = F2(
 	});
 var $author$project$Swagger$Definition$foldl = F3(
 	function (fn, init, _v0) {
-		var defs = _v0.a;
+		var defs = _v0;
 		return A3($elm$core$List$foldl, fn, init, defs);
 	});
-var $author$project$Swagger$Definition$singleton = $author$project$Swagger$Definition$Definitions(_List_Nil);
+var $author$project$Swagger$Definition$singleton = _List_Nil;
 var $author$project$Swagger$Flatten$flattenDefinitions = A2($author$project$Swagger$Definition$foldl, $author$project$Swagger$Flatten$flattenEachRoot, $author$project$Swagger$Definition$singleton);
 var $author$project$Swagger$Flatten$flatten = function (swagger) {
-	var definitions = swagger.definitions;
+	var definitions = swagger.aJ;
 	return _Utils_update(
 		swagger,
 		{
-			definitions: $author$project$Swagger$Flatten$flattenDefinitions(definitions)
+			aJ: $author$project$Swagger$Flatten$flattenDefinitions(definitions)
 		});
 };
 var $elm$core$Result$map = F2(
 	function (func, ra) {
-		if (ra.$ === 'Ok') {
+		if (!ra.$) {
 			var a = ra.a;
 			return $elm$core$Result$Ok(
 				func(a));
@@ -3725,7 +3713,7 @@ var $elm$core$Result$map = F2(
 	});
 var $elm$core$Result$mapError = F2(
 	function (f, result) {
-		if (result.$ === 'Ok') {
+		if (!result.$) {
 			var v = result.a;
 			return $elm$core$Result$Ok(v);
 		} else {
@@ -3739,7 +3727,7 @@ var $elm$core$String$concat = function (strings) {
 };
 var $author$project$Swagger$Definition$map = F2(
 	function (fn, _v0) {
-		var list = _v0.a;
+		var list = _v0;
 		return A2($elm$core$List$map, fn, list);
 	});
 var $elm$core$String$cons = _String_cons;
@@ -3749,7 +3737,7 @@ var $elm$core$String$fromChar = function (_char) {
 var $elm$core$String$toUpper = _String_toUpper;
 var $author$project$Codegen$Utils$capitalize = function (str) {
 	var _v0 = $elm$core$String$uncons(str);
-	if (_v0.$ === 'Just') {
+	if (!_v0.$) {
 		var _v1 = _v0.a;
 		var head = _v1.a;
 		var tail = _v1.b;
@@ -3778,7 +3766,7 @@ var $author$project$Codegen$Utils$sanitizeFirst = function (str) {
 	sanitizeFirst:
 	while (true) {
 		var _v0 = $elm$core$String$uncons(str);
-		if (_v0.$ === 'Just') {
+		if (!_v0.$) {
 			var _v1 = _v0.a;
 			var head = _v1.a;
 			var tail = _v1.b;
@@ -3804,7 +3792,7 @@ var $author$project$Codegen$Utils$sanitizeRest = function (str) {
 		A2(
 			$elm$core$List$map,
 			function ($) {
-				return $.match;
+				return $.aS;
 			},
 			A2(
 				$elm$regex$Regex$find,
@@ -3871,7 +3859,7 @@ var $author$project$Codegen$Function$function = F4(
 		return A4($author$project$Codegen$Function$functionType, name, args, type_, body) + ('\n' + (A4($author$project$Codegen$Function$functionDeclaration, name, args, type_, body) + '\n'));
 	});
 var $author$project$Swagger$Definition$getFullName = function (def) {
-	if (def.$ === 'Definition') {
+	if (!def.$) {
 		var name = def.a;
 		return name;
 	} else {
@@ -3889,7 +3877,7 @@ var $author$project$Swagger$Definition$getFullName = function (def) {
 	}
 };
 var $author$project$Swagger$Type$getItemsType = function (_v0) {
-	var type_ = _v0.a;
+	var type_ = _v0;
 	return type_;
 };
 var $author$project$Codegen$Function$pipeline = F2(
@@ -3912,22 +3900,22 @@ var $author$project$Generate$Utils$nestedDecoderName = F2(
 var $author$project$Generate$Decoder$renderPropertyDecoder = F3(
 	function (parentName, name, type_) {
 		switch (type_.$) {
-			case 'Object_':
+			case 0:
 				return $author$project$Codegen$Function$lazy(
 					A2($author$project$Generate$Utils$nestedDecoderName, parentName, name));
-			case 'Array_':
+			case 1:
 				return A2($author$project$Generate$Utils$nestedDecoderName, parentName, name);
-			case 'Dict_':
+			case 2:
 				return A2($author$project$Generate$Utils$nestedDecoderName, parentName, name);
-			case 'Enum_':
+			case 4:
 				return A2($author$project$Generate$Utils$nestedDecoderName, parentName, name);
-			case 'String_':
+			case 3:
 				return 'string';
-			case 'Int_':
+			case 5:
 				return 'int';
-			case 'Float_':
+			case 6:
 				return 'float';
-			case 'Bool_':
+			case 7:
 				return 'bool';
 			default:
 				var ref = type_.a;
@@ -4016,9 +4004,9 @@ var $author$project$Generate$Decoder$renderEnumBody = F2(
 	});
 var $author$project$Generate$Decoder$defaultValue = F2(
 	function (type_, _default) {
-		if (type_.$ === 'Enum_') {
+		if (type_.$ === 4) {
 			var _v1 = A2($elm$json$Json$Decode$decodeString, $elm$json$Json$Decode$string, _default);
-			if (_v1.$ === 'Ok') {
+			if (!_v1.$) {
 				var newDefault = _v1.a;
 				return $author$project$Generate$Utils$typeName(newDefault);
 			} else {
@@ -4032,11 +4020,11 @@ var $author$project$Generate$Decoder$defaultValue = F2(
 var $author$project$Generate$Decoder$renderObjectDecoderProperty = F2(
 	function (parentName, property) {
 		switch (property.$) {
-			case 'Required':
+			case 0:
 				var name = property.a;
 				var type_ = property.b;
 				return 'required ' + ($author$project$Codegen$Literal$string(name) + (' ' + A3($author$project$Generate$Decoder$renderPropertyDecoder, parentName, name, type_)));
-			case 'Optional':
+			case 1:
 				var name = property.a;
 				var type_ = property.b;
 				return 'maybe ' + ($author$project$Codegen$Literal$string(name) + (' ' + A3($author$project$Generate$Decoder$renderPropertyDecoder, parentName, name, type_)));
@@ -4049,10 +4037,10 @@ var $author$project$Generate$Decoder$renderObjectDecoderProperty = F2(
 	});
 var $author$project$Generate$Decoder$renderObjectBody = F2(
 	function (name, _v0) {
-		var properties = _v0.a;
+		var properties = _v0;
 		return A2(
 			$author$project$Codegen$Function$pipeline,
-			'decode ' + $author$project$Generate$Utils$typeName(name + 'Record'),
+			'Json.Decode.succeed ' + $author$project$Generate$Utils$typeName(name + 'Record'),
 			A3(
 				$author$project$Utils$flip,
 				$elm$core$Basics$append,
@@ -4071,37 +4059,37 @@ var $author$project$Generate$Decoder$renderPrimitiveBody = function (type_) {
 var $author$project$Generate$Decoder$renderDecoderBody = function (definition) {
 	var _v0 = $author$project$Swagger$Definition$getType(definition);
 	switch (_v0.$) {
-		case 'Object_':
+		case 0:
 			var properties = _v0.a;
 			return A2(
 				$author$project$Generate$Decoder$renderObjectBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				properties);
-		case 'Array_':
+		case 1:
 			var items = _v0.a;
 			return A2(
 				$author$project$Generate$Decoder$renderArrayBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				$author$project$Swagger$Type$getItemsType(items));
-		case 'Dict_':
+		case 2:
 			var typeName = _v0.a;
 			return A2(
 				$author$project$Generate$Decoder$renderDictBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				typeName);
-		case 'Enum_':
+		case 4:
 			var _enum = _v0.b;
 			return A2(
 				$author$project$Generate$Decoder$renderEnumBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				_enum);
-		case 'String_':
+		case 3:
 			return $author$project$Generate$Decoder$renderPrimitiveBody('string');
-		case 'Int_':
+		case 5:
 			return $author$project$Generate$Decoder$renderPrimitiveBody('int');
-		case 'Float_':
+		case 6:
 			return $author$project$Generate$Decoder$renderPrimitiveBody('float');
-		case 'Bool_':
+		case 7:
 			return $author$project$Generate$Decoder$renderPrimitiveBody('bool');
 		default:
 			var ref = _v0.a;
@@ -4119,7 +4107,7 @@ var $author$project$Generate$Decoder$renderDecoder = function (definition) {
 };
 var $author$project$Codegen$Function$Arg = F2(
 	function (a, b) {
-		return {$: 'Arg', a: a, b: b};
+		return {$: 0, a: a, b: b};
 	});
 var $author$project$Codegen$Function$arg = F2(
 	function (type_, name) {
@@ -4132,23 +4120,23 @@ var $author$project$Generate$Encoder$maybeUnwrapType = F2(
 	function (definition, name) {
 		var _v0 = $author$project$Swagger$Definition$getType(definition);
 		switch (_v0.$) {
-			case 'Object_':
+			case 0:
 				return '(' + ($author$project$Generate$Utils$typeName(name) + (' value' + ')'));
-			case 'Array_':
+			case 1:
 				return '(' + ($author$project$Generate$Utils$typeName(name) + (' value' + ')'));
-			case 'Ref_':
+			case 8:
 				var ref = _v0.a;
 				return '(' + ($author$project$Generate$Utils$typeName(name) + (' value' + ')'));
-			case 'Dict_':
+			case 2:
 				return 'value';
-			case 'Enum_':
+			case 4:
 				var _enum = _v0.b;
 				return 'value';
-			case 'String_':
+			case 3:
 				return 'value';
-			case 'Int_':
+			case 5:
 				return 'value';
-			case 'Float_':
+			case 6:
 				return 'value';
 			default:
 				return 'value';
@@ -4161,21 +4149,21 @@ var $author$project$Generate$Utils$nestedEncoderName = F2(
 var $author$project$Generate$Encoder$renderPropertyEncoder = F3(
 	function (parentName, name, type_) {
 		switch (type_.$) {
-			case 'Object_':
+			case 0:
 				return A2($author$project$Generate$Utils$nestedEncoderName, parentName, name);
-			case 'Array_':
+			case 1:
 				return A2($author$project$Generate$Utils$nestedEncoderName, parentName, name);
-			case 'Dict_':
+			case 2:
 				return A2($author$project$Generate$Utils$nestedEncoderName, parentName, name);
-			case 'Enum_':
+			case 4:
 				return A2($author$project$Generate$Utils$nestedEncoderName, parentName, name);
-			case 'String_':
+			case 3:
 				return 'Json.Encode.string';
-			case 'Int_':
+			case 5:
 				return 'Json.Encode.int';
-			case 'Float_':
+			case 6:
 				return 'Json.Encode.float';
-			case 'Bool_':
+			case 7:
 				return 'Json.Encode.bool';
 			default:
 				var ref = type_.a;
@@ -4216,7 +4204,7 @@ var $author$project$Codegen$Tuple$tuple = F2(
 var $elm$core$String$toLower = _String_toLower;
 var $author$project$Codegen$Utils$uncapitalize = function (str) {
 	var _v0 = $elm$core$String$uncons(str);
-	if (_v0.$ === 'Just') {
+	if (!_v0.$) {
 		var _v1 = _v0.a;
 		var head = _v1.a;
 		var tail = _v1.b;
@@ -4236,7 +4224,7 @@ var $author$project$Generate$Encoder$renderObjectProperty = F2(
 			$author$project$Swagger$Type$getPropertyName(property),
 			$author$project$Swagger$Type$getPropertyType(property));
 		switch (property.$) {
-			case 'Required':
+			case 0:
 				var name = property.a;
 				var type_ = property.b;
 				return A2(
@@ -4244,7 +4232,7 @@ var $author$project$Generate$Encoder$renderObjectProperty = F2(
 					$author$project$Codegen$Literal$string(name),
 					propertyEncoder + (' value.' + $author$project$Codegen$Utils$uncapitalize(
 						$author$project$Codegen$Utils$sanitize(name))));
-			case 'Optional':
+			case 1:
 				var name = property.a;
 				var type_ = property.b;
 				return A2(
@@ -4264,7 +4252,7 @@ var $author$project$Generate$Encoder$renderObjectProperty = F2(
 	});
 var $author$project$Generate$Encoder$renderObjectBody = F2(
 	function (name, _v0) {
-		var properties = _v0.a;
+		var properties = _v0;
 		return 'Json.Encode.object ' + $author$project$Codegen$List$list(
 			A2(
 				$elm$core$List$map,
@@ -4277,37 +4265,37 @@ var $author$project$Generate$Encoder$renderPrimitiveBody = function (typeName) {
 var $author$project$Generate$Encoder$renderEncoderBody = function (definition) {
 	var _v0 = $author$project$Swagger$Definition$getType(definition);
 	switch (_v0.$) {
-		case 'Object_':
+		case 0:
 			var properties = _v0.a;
 			return A2(
 				$author$project$Generate$Encoder$renderObjectBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				properties);
-		case 'Array_':
+		case 1:
 			var items = _v0.a;
 			return A2(
 				$author$project$Generate$Encoder$renderArrayBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				$author$project$Swagger$Type$getItemsType(items));
-		case 'Dict_':
+		case 2:
 			var typeName = _v0.a;
 			return A2(
 				$author$project$Generate$Encoder$renderDictBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				typeName);
-		case 'Enum_':
+		case 4:
 			var _enum = _v0.b;
 			return A2(
 				$author$project$Generate$Encoder$renderEnumBody,
 				$author$project$Swagger$Definition$getFullName(definition),
 				_enum);
-		case 'String_':
+		case 3:
 			return $author$project$Generate$Encoder$renderPrimitiveBody('string');
-		case 'Int_':
+		case 5:
 			return $author$project$Generate$Encoder$renderPrimitiveBody('int');
-		case 'Float_':
+		case 6:
 			return $author$project$Generate$Encoder$renderPrimitiveBody('float');
-		case 'Bool_':
+		case 7:
 			return $author$project$Generate$Encoder$renderPrimitiveBody('bool');
 		default:
 			var ref = _v0.a;
@@ -4351,21 +4339,21 @@ var $author$project$Generate$Utils$nestedTypeName = F2(
 var $author$project$Generate$Type$renderPropertyType = F3(
 	function (parentName, name, type_) {
 		switch (type_.$) {
-			case 'Object_':
+			case 0:
 				return A2($author$project$Generate$Utils$nestedTypeName, parentName, name);
-			case 'Array_':
+			case 1:
 				return A2($author$project$Generate$Utils$nestedTypeName, parentName, name);
-			case 'Dict_':
+			case 2:
 				return A2($author$project$Generate$Utils$nestedTypeName, parentName, name);
-			case 'Enum_':
+			case 4:
 				return A2($author$project$Generate$Utils$nestedTypeName, parentName, name);
-			case 'String_':
+			case 3:
 				return 'String';
-			case 'Int_':
+			case 5:
 				return 'Int';
-			case 'Float_':
+			case 6:
 				return 'Float';
-			case 'Bool_':
+			case 7:
 				return 'Bool';
 			default:
 				var ref = type_.a;
@@ -4385,14 +4373,14 @@ var $author$project$Codegen$Type$recordField = F2(
 var $author$project$Generate$Type$renderProperty = F2(
 	function (parentName, prop) {
 		switch (prop.$) {
-			case 'Required':
+			case 0:
 				var name = prop.a;
 				var type_ = prop.b;
 				return A2(
 					$author$project$Codegen$Type$recordField,
 					$author$project$Codegen$Utils$sanitize(name),
 					A3($author$project$Generate$Type$renderPropertyType, parentName, name, type_));
-			case 'Optional':
+			case 1:
 				var name = prop.a;
 				var type_ = prop.b;
 				return A2(
@@ -4411,7 +4399,7 @@ var $author$project$Generate$Type$renderProperty = F2(
 	});
 var $author$project$Generate$Type$renderRecord = F2(
 	function (parentName, _v0) {
-		var properties = _v0.a;
+		var properties = _v0;
 		return $author$project$Codegen$Type$record(
 			A2(
 				$elm$core$List$map,
@@ -4438,25 +4426,25 @@ var $author$project$Generate$Type$renderType = function (definition) {
 		return 'type ' + (name + (' = ' + (name + (' (' + (body + ')\n\n')))));
 	};
 	switch (type_.$) {
-		case 'String_':
+		case 3:
 			return typeAliasDecl('String');
-		case 'Int_':
+		case 5:
 			return typeAliasDecl('Int');
-		case 'Float_':
+		case 6:
 			return typeAliasDecl('Float');
-		case 'Bool_':
+		case 7:
 			return typeAliasDecl('Bool');
-		case 'Enum_':
+		case 4:
 			var _enum = type_.b;
 			return unionTypeDecl(
 				A2($author$project$Generate$Type$renderEnum, name, _enum));
-		case 'Object_':
+		case 0:
 			var props = type_.a;
 			return _Utils_ap(
 				objectDecl(
 					A2($author$project$Generate$Type$renderRecord, name, props)),
 				recordDecl);
-		case 'Array_':
+		case 1:
 			var items = type_.a;
 			return arrayDecl(
 				$author$project$Codegen$Type$list(
@@ -4465,7 +4453,7 @@ var $author$project$Generate$Type$renderType = function (definition) {
 						name,
 						'Item',
 						$author$project$Swagger$Type$getItemsType(items))));
-		case 'Dict_':
+		case 2:
 			var typename = type_.a;
 			return typeAliasDecl(
 				$author$project$Codegen$Type$dict(
@@ -4488,9 +4476,9 @@ var $author$project$Generate$Swagger$renderDefinition = function (definition) {
 				'\n\n'
 			]));
 };
-var $author$project$Generate$Headers$renderHeaders = 'module Swagger exposing (..)\n\nimport Json.Decode exposing (Decoder, string, int, float, dict, list, bool, map, value, decodeValue, decodeString, lazy, succeed, fail, andThen)\nimport Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)\nimport Json.Encode\nimport Json.Encode.Extra\nimport Dict exposing (Dict)\n\n\nmaybe : String -> Decoder a -> Decoder (Maybe a -> b) -> Decoder b\nmaybe name decoder =\n    optional name (map Just decoder) Nothing\n\n\ncustomDecoder : Decoder a -> (a -> Result String b) -> Decoder b\ncustomDecoder decoder toResult =\n    andThen\n        (\\a ->\n            case toResult a of\n                Ok b ->\n                    succeed b\n\n                Err err ->\n                    fail err\n        )\n        decoder\n\n\ndictEncoder : (a -> Json.Encode.Value) -> Dict String a -> Json.Encode.Value\ndictEncoder enc dict =\n    Dict.toList dict\n        |> List.map (\\(k,v) -> (k, enc v))\n        |> Json.Encode.object\n\n';
+var $author$project$Generate$Headers$renderHeaders = 'module Swagger exposing (..)\n\nimport Json.Decode exposing (Decoder, string, int, float, dict, list, bool, map, value, decodeValue, decodeString, lazy, succeed, fail, andThen)\nimport Json.Decode.Pipeline exposing (required, optional, hardcoded)\nimport Json.Encode\nimport Json.Encode.Extra\nimport Dict exposing (Dict)\n\n\nmaybe : String -> Decoder a -> Decoder (Maybe a -> b) -> Decoder b\nmaybe name decoder =\n    optional name (map Just decoder) Nothing\n\n\ncustomDecoder : Decoder a -> (a -> Result String b) -> Decoder b\ncustomDecoder decoder toResult =\n    andThen\n        (\\a ->\n            case toResult a of\n                Ok b ->\n                    succeed b\n\n                Err err ->\n                    fail err\n        )\n        decoder\n\n\ndictEncoder : (a -> Json.Encode.Value) -> Dict String a -> Json.Encode.Value\ndictEncoder enc dict =\n    Dict.toList dict\n        |> List.map (\\(k,v) -> (k, enc v))\n        |> Json.Encode.object\n\n';
 var $author$project$Generate$Swagger$render = function (_v0) {
-	var definitions = _v0.definitions;
+	var definitions = _v0.aJ;
 	return _Utils_ap(
 		$author$project$Generate$Headers$renderHeaders,
 		$elm$core$String$concat(
@@ -4510,10 +4498,10 @@ var $author$project$Ports$printAndExitFailure = _Platform_outgoingPort('printAnd
 var $author$project$Ports$printAndExitSuccess = _Platform_outgoingPort('printAndExitSuccess', $elm$json$Json$Encode$string);
 var $author$project$Generate$init = function (json) {
 	return _Utils_Tuple2(
-		_Utils_Tuple0,
+		0,
 		function () {
 			var _v0 = $author$project$Generate$generate(json);
-			if (_v0.$ === 'Ok') {
+			if (!_v0.$) {
 				var result = _v0.a;
 				return $author$project$Ports$printAndExitSuccess(result);
 			} else {
@@ -4529,11 +4517,11 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $elm$core$Platform$worker = _Platform_worker;
 var $author$project$Generate$main = $elm$core$Platform$worker(
 	{
-		init: $author$project$Generate$init,
-		subscriptions: $elm$core$Basics$always($elm$core$Platform$Sub$none),
-		update: F2(
+		aQ: $author$project$Generate$init,
+		a$: $elm$core$Basics$always($elm$core$Platform$Sub$none),
+		a1: F2(
 			function (_v0, _v1) {
-				return _Utils_Tuple2(_Utils_Tuple0, $elm$core$Platform$Cmd$none);
+				return _Utils_Tuple2(0, $elm$core$Platform$Cmd$none);
 			})
 	});
 _Platform_export({'Generate':{'init':$author$project$Generate$main($elm$json$Json$Decode$string)(0)}});}(this));

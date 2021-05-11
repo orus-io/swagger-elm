@@ -6,7 +6,7 @@ renderHeaders =
     """module Swagger exposing (..)
 
 import Json.Decode exposing (Decoder, string, int, float, dict, list, bool, map, value, decodeValue, decodeString, lazy, succeed, fail, andThen)
-import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
+import Json.Decode.Pipeline exposing (required, optional, hardcoded)
 import Json.Encode
 import Json.Encode.Extra
 import Dict exposing (Dict)

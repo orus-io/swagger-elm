@@ -99,11 +99,9 @@ renderPrimitiveBody typeName =
 
 renderArrayBody : String -> Type -> String
 renderArrayBody name type_ =
-    "Json.Encode.list ("
-        ++ "List.map "
+    "Json.Encode.list "
         ++ renderPropertyEncoder name "Item" type_
         ++ " value"
-        ++ ")"
 
 
 renderDictBody : String -> Type -> String

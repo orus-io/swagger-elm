@@ -80,7 +80,7 @@ renderObjectBody name (Properties properties) =
     properties
         |> List.map (renderObjectDecoderProperty name)
         |> flip (++) [ "map " ++ typeName name ]
-        |> pipeline ((++) "decode " <| typeName (name ++ "Record"))
+        |> pipeline ((++) "Json.Decode.succeed " <| typeName (name ++ "Record"))
 
 
 renderObjectDecoderProperty : String -> Property -> String
