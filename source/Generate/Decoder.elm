@@ -2,7 +2,7 @@ module Generate.Decoder exposing (..)
 
 import Codegen.Function as Fun exposing (caseof, function, lazy, letin, pipeline)
 import Codegen.Literal exposing (string)
-import Generate.Utils exposing (decoderName, nestedDecoderName, typeName)
+import Generate.Utils exposing (decoderName, enumValueTypeName, nestedDecoderName, typeName)
 import Json.Decode as Json exposing (decodeString)
 import Swagger.Definition as Def exposing (Definition, getFullName, getType)
 import Swagger.Type
@@ -156,15 +156,15 @@ renderEnumBody parentName enum =
     letin
         [ ( "decodeToType string"
           , caseof "string"
-                (List.map renderEnumEach enum ++ [ renderEnumFail parentName ])
+                (List.map (renderEnumEach parentName) enum ++ [ renderEnumFail parentName ])
           )
         ]
         "customDecoder string decodeToType"
 
 
-renderEnumEach : String -> ( String, String )
-renderEnumEach value =
-    ( string value, "Result.Ok " ++ typeName value )
+renderEnumEach : String -> String -> ( String, String )
+renderEnumEach name value =
+    ( string value, "Result.Ok " ++ enumValueTypeName name value )
 
 
 renderEnumFail : String -> ( String, String )

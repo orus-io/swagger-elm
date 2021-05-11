@@ -31,3 +31,13 @@ typeName =
 nestedTypeName : String -> String -> String
 nestedTypeName parentName name =
     typeName parentName ++ typeName name
+
+
+enumValueTypeName : String -> String -> String
+enumValueTypeName name value =
+    case value of
+        "" ->
+            name ++ "_None"
+
+        s ->
+            name ++ "_" ++ typeName s

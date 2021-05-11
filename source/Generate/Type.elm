@@ -2,7 +2,7 @@ module Generate.Type exposing (..)
 
 import Codegen.Type exposing (dict, list, maybe, record, recordField, typeAlias, unionType)
 import Codegen.Utils exposing (sanitize)
-import Generate.Utils exposing (nestedTypeName, typeName)
+import Generate.Utils exposing (enumValueTypeName, nestedTypeName, typeName)
 import Swagger.Definition as Def exposing (Definition, getFullName, getType)
 import Swagger.Type
     exposing
@@ -70,7 +70,7 @@ renderType definition =
 
 renderEnum : String -> List String -> List String
 renderEnum name =
-    List.map typeName
+    List.map (enumValueTypeName name)
 
 
 renderRecord : String -> Properties -> String

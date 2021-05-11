@@ -3968,14 +3968,24 @@ var $author$project$Codegen$Function$letin = F2(
 				declarations));
 		return '  let\n' + (lets + ('\n    in\n      ' + body));
 	});
+var $author$project$Generate$Utils$enumValueTypeName = F2(
+	function (name, value) {
+		if (value === '') {
+			return name + '_None';
+		} else {
+			var s = value;
+			return name + ('_' + $author$project$Generate$Utils$typeName(s));
+		}
+	});
 var $author$project$Codegen$Literal$string = function (str) {
 	return '\"' + (str + '\"');
 };
-var $author$project$Generate$Decoder$renderEnumEach = function (value) {
-	return _Utils_Tuple2(
-		$author$project$Codegen$Literal$string(value),
-		'Result.Ok ' + $author$project$Generate$Utils$typeName(value));
-};
+var $author$project$Generate$Decoder$renderEnumEach = F2(
+	function (name, value) {
+		return _Utils_Tuple2(
+			$author$project$Codegen$Literal$string(value),
+			'Result.Ok ' + A2($author$project$Generate$Utils$enumValueTypeName, name, value));
+	});
 var $author$project$Generate$Decoder$renderEnumFail = function (parentName) {
 	return _Utils_Tuple2(
 		'_',
@@ -3994,7 +4004,10 @@ var $author$project$Generate$Decoder$renderEnumBody = F2(
 						$author$project$Codegen$Function$caseof,
 						'string',
 						_Utils_ap(
-							A2($elm$core$List$map, $author$project$Generate$Decoder$renderEnumEach, _enum),
+							A2(
+								$elm$core$List$map,
+								$author$project$Generate$Decoder$renderEnumEach(parentName),
+								_enum),
 							_List_fromArray(
 								[
 									$author$project$Generate$Decoder$renderEnumFail(parentName)
@@ -4172,23 +4185,27 @@ var $author$project$Generate$Encoder$renderPropertyEncoder = F3(
 	});
 var $author$project$Generate$Encoder$renderArrayBody = F2(
 	function (name, type_) {
-		return 'Json.Encode.list (' + ('List.map ' + (A3($author$project$Generate$Encoder$renderPropertyEncoder, name, 'Item', type_) + (' value' + ')')));
+		return 'Json.Encode.list ' + (A3($author$project$Generate$Encoder$renderPropertyEncoder, name, 'Item', type_) + ' value');
 	});
 var $author$project$Generate$Encoder$renderDictBody = F2(
 	function (name, typeName) {
 		return 'dictEncoder ' + (A3($author$project$Generate$Encoder$renderPropertyEncoder, name, 'Property', typeName) + ' value');
 	});
-var $author$project$Generate$Encoder$renderEnumEach = function (value) {
-	return _Utils_Tuple2(
-		$author$project$Generate$Utils$typeName(value),
-		'Json.Encode.string ' + $author$project$Codegen$Literal$string(value));
-};
+var $author$project$Generate$Encoder$renderEnumEach = F2(
+	function (name, value) {
+		return _Utils_Tuple2(
+			A2($author$project$Generate$Utils$enumValueTypeName, name, value),
+			'Json.Encode.string ' + $author$project$Codegen$Literal$string(value));
+	});
 var $author$project$Generate$Encoder$renderEnumBody = F2(
 	function (parentName, _enum) {
 		return A2(
 			$author$project$Codegen$Function$caseof,
 			'value',
-			A2($elm$core$List$map, $author$project$Generate$Encoder$renderEnumEach, _enum));
+			A2(
+				$elm$core$List$map,
+				$author$project$Generate$Encoder$renderEnumEach(parentName),
+				_enum));
 	});
 var $author$project$Codegen$List$list = A2(
 	$elm$core$Basics$composeR,
@@ -4328,7 +4345,8 @@ var $author$project$Codegen$Type$list = function (body) {
 	return A2($author$project$Codegen$Type$wrap, 'List', body);
 };
 var $author$project$Generate$Type$renderEnum = function (name) {
-	return $elm$core$List$map($author$project$Generate$Utils$typeName);
+	return $elm$core$List$map(
+		$author$project$Generate$Utils$enumValueTypeName(name));
 };
 var $author$project$Generate$Utils$nestedTypeName = F2(
 	function (parentName, name) {

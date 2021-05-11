@@ -5,7 +5,7 @@ import Codegen.List exposing (list)
 import Codegen.Literal exposing (string)
 import Codegen.Tuple exposing (tuple)
 import Codegen.Utils exposing (sanitize, uncapitalize)
-import Generate.Utils exposing (encoderName, nestedEncoderName, typeName)
+import Generate.Utils exposing (encoderName, enumValueTypeName, nestedEncoderName, typeName)
 import Swagger.Definition as Def exposing (Definition, getFullName, getType)
 import Swagger.Type
     exposing
@@ -170,9 +170,9 @@ renderPropertyEncoder parentName name type_ =
 renderEnumBody : String -> List String -> String
 renderEnumBody parentName enum =
     caseof "value" <|
-        List.map renderEnumEach enum
+        List.map (renderEnumEach parentName) enum
 
 
-renderEnumEach : String -> ( String, String )
-renderEnumEach value =
-    ( typeName value, "Json.Encode.string " ++ string value )
+renderEnumEach : String -> String -> ( String, String )
+renderEnumEach name value =
+    ( enumValueTypeName name value, "Json.Encode.string " ++ string value )
