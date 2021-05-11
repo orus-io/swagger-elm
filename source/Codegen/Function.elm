@@ -1,6 +1,7 @@
-module Codegen.Function exposing (function, arg, pipeline, letin, caseof, lazy)
+module Codegen.Function exposing (arg, caseof, function, lazy, letin, pipeline)
 
 import String
+import Utils exposing (flip)
 
 
 type alias Args =
@@ -25,9 +26,9 @@ type alias Body =
 
 function : Name -> Args -> Type -> Body -> String
 function name args type_ body =
-    (functionType name args type_ body)
+    functionType name args type_ body
         ++ "\n"
-        ++ (functionDeclaration name args type_ body)
+        ++ functionDeclaration name args type_ body
         ++ "\n"
 
 
@@ -35,7 +36,7 @@ functionType : Name -> Args -> Type -> Body -> String
 functionType name args type_ body =
     name
         ++ " : "
-        ++ (String.concat <| List.map ((flip (++) " -> ") << argType) args)
+        ++ (String.concat <| List.map (flip (++) " -> " << argType) args)
         ++ type_
 
 
@@ -80,10 +81,10 @@ letin declarations body =
     let
         lets =
             declarations
-                |> List.map (\( name, body ) -> "      " ++ name ++ " = " ++ body)
+                |> List.map (\( name, expr ) -> "      " ++ name ++ " = " ++ expr)
                 |> String.join "\n"
     in
-        "  let\n" ++ lets ++ "\n    in\n      " ++ body
+    "  let\n" ++ lets ++ "\n    in\n      " ++ body
 
 
 caseof : String -> List ( Name, Body ) -> String
@@ -94,7 +95,7 @@ caseof case_ conditions =
                 |> List.map (\( name, body ) -> "      " ++ name ++ " -> " ++ body)
                 |> String.join "\n"
     in
-        "  case " ++ case_ ++ " of\n" ++ conds
+    "  case " ++ case_ ++ " of\n" ++ conds
 
 
 lazy : Body -> String

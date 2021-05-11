@@ -1,22 +1,22 @@
-module Swagger.Definition
-    exposing
-        ( Definitions
-        , Definition
-        , Names
-        , Name
-        , singleton
-        , definitions
-        , definition
-        , getType
-        , getName
-        , getFullName
-        , map
-        , prepend
-        , foldl
-        )
+module Swagger.Definition exposing
+    ( Definition
+    , Definitions
+    , Name
+    , Names
+    , definition
+    , definitions
+    , foldl
+    , getFullName
+    , getName
+    , getType
+    , map
+    , prepend
+    , singleton
+    )
 
-import Swagger.Type exposing (Type)
 import Codegen.Utils exposing (capitalize)
+import Swagger.Type exposing (Type)
+import Utils exposing (flip)
 
 
 type Definitions
@@ -57,8 +57,8 @@ definition parentNames name type_ =
 
 
 getType : Definition -> Type
-getType definition =
-    case definition of
+getType def =
+    case def of
         Definition _ type_ ->
             type_
 
@@ -67,8 +67,8 @@ getType definition =
 
 
 getName : Definition -> Name
-getName definition =
-    case definition of
+getName def =
+    case def of
         Definition name _ ->
             name
 
@@ -77,8 +77,8 @@ getName definition =
 
 
 getFullName : Definition -> Name
-getFullName definition =
-    case definition of
+getFullName def =
+    case def of
         Definition name _ ->
             name
 

@@ -1,7 +1,7 @@
 module Codegen.Type exposing (..)
 
-import String
 import Codegen.Utils exposing (capitalize, uncapitalize)
+import String
 
 
 type alias Name =
@@ -26,26 +26,26 @@ type alias Property =
 
 typeAlias : Name -> Body -> String
 typeAlias name body =
-    "type alias " ++ (capitalize name) ++ " = " ++ body ++ "\n"
+    "type alias " ++ capitalize name ++ " = " ++ body ++ "\n"
 
 
 unionType : Name -> Properties -> String
 unionType name tags =
     "type "
-        ++ (capitalize name)
+        ++ capitalize name
         ++ "\n  = "
-        ++ (String.join "\n  | " tags)
+        ++ String.join "\n  | " tags
         ++ "\n"
 
 
 record : Properties -> String
 record properties =
-    "\n  { " ++ (String.join "\n  , " properties) ++ "\n  }\n"
+    "\n  { " ++ String.join "\n  , " properties ++ "\n  }\n"
 
 
 recordField : Name -> Type -> String
 recordField name type_ =
-    (uncapitalize name) ++ " : " ++ type_
+    uncapitalize name ++ " : " ++ type_
 
 
 list : Body -> String

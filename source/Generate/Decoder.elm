@@ -1,17 +1,18 @@
 module Generate.Decoder exposing (..)
 
-import Json.Decode as Json exposing (decodeString)
-import Generate.Utils exposing (typeName, decoderName, nestedDecoderName)
-import Codegen.Function as Fun exposing (function, pipeline, letin, caseof, lazy)
+import Codegen.Function as Fun exposing (caseof, function, lazy, letin, pipeline)
 import Codegen.Literal exposing (string)
-import Swagger.Definition as Def exposing (Definition, getType, getFullName)
+import Generate.Utils exposing (decoderName, nestedDecoderName, typeName)
+import Json.Decode as Json exposing (decodeString)
+import Swagger.Definition as Def exposing (Definition, getFullName, getType)
 import Swagger.Type
     exposing
-        ( Type(Object_, Array_, Dict_, String_, Enum_, Int_, Float_, Bool_, Ref_)
-        , Properties(Properties)
-        , Property(Required, Optional, Default)
+        ( Properties(..)
+        , Property(..)
+        , Type(..)
         , getItemsType
         )
+import Utils exposing (flip)
 
 
 renderDecoder : Definition -> String
@@ -20,10 +21,10 @@ renderDecoder definition =
         name =
             getFullName definition
     in
-        function (decoderName <| name)
-            []
-            ("Decoder " ++ typeName name)
-            (renderDecoderBody definition)
+    function (decoderName <| name)
+        []
+        ("Decoder " ++ typeName name)
+        (renderDecoderBody definition)
 
 
 renderDecoderBody : Definition -> String
@@ -65,13 +66,13 @@ renderPrimitiveBody type_ =
 renderArrayBody : String -> Type -> String
 renderArrayBody name type_ =
     "list "
-        ++ (renderPropertyDecoder name "Item" type_)
+        ++ renderPropertyDecoder name "Item" type_
         |> flip pipeline [ "map " ++ typeName name ]
 
 
 renderDictBody : String -> Type -> String
 renderDictBody name type_ =
-    "dict " ++ (renderPropertyDecoder name "Property" type_)
+    "dict " ++ renderPropertyDecoder name "Property" type_
 
 
 renderObjectBody : String -> Properties -> String
@@ -109,7 +110,7 @@ defaultValue type_ default =
                     typeName newDefault
 
                 Err err ->
-                    Debug.crash "Invalid default value" err default
+                    "Invalid default value:" ++ Json.errorToString err
 
         _ ->
             default
@@ -152,14 +153,13 @@ renderEnumBody parentName enum =
         decoderName_ =
             decoderName parentName
     in
-        (letin
-            [ ( "decodeToType string"
-              , caseof "string"
-                    ((List.map renderEnumEach enum) ++ [ renderEnumFail parentName ])
-              )
-            ]
-            "customDecoder string decodeToType"
-        )
+    letin
+        [ ( "decodeToType string"
+          , caseof "string"
+                (List.map renderEnumEach enum ++ [ renderEnumFail parentName ])
+          )
+        ]
+        "customDecoder string decodeToType"
 
 
 renderEnumEach : String -> ( String, String )

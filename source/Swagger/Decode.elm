@@ -1,23 +1,38 @@
 module Swagger.Decode exposing (..)
 
-import Json.Decode as Json exposing (Decoder, string, int, float, bool, keyValuePairs, field, list, map, value, Value, decodeValue, oneOf, lazy, andThen)
-import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
-import Regex exposing (regex)
+import Json.Decode as Json exposing (Decoder, Value, andThen, bool, decodeValue, field, float, int, keyValuePairs, lazy, list, map, oneOf, string, value)
+import Json.Decode.Pipeline exposing (hardcoded, optional, required)
+import Regex
+import Swagger.Definition exposing (Definition, Definitions, definition, definitions)
 import Swagger.Swagger exposing (Swagger)
-import Swagger.Definition exposing (Definitions, definitions, definition, Definition)
 import Swagger.Type
     exposing
-        ( Type(Object_, Array_, Dict_, String_, Enum_, Int_, Float_, Bool_, Ref_)
+        ( Items(..)
+        , Properties(..)
+        , Property(..)
         , Ref
-        , Properties(Properties)
-        , Items(Items)
-        , Property(Required, Optional, Default)
+        , Type(..)
         , getDefault
         )
 
 
 type alias Name =
     String
+
+
+trio : a -> b -> c -> ( a, b, c )
+trio a b c =
+    ( a, b, c )
+
+
+decode : a -> Decoder a
+decode =
+    Json.succeed
+
+
+regex : String -> Regex.Regex
+regex =
+    Regex.fromString >> Maybe.withDefault Regex.never
 
 
 decodeSwagger : Decoder Swagger
@@ -37,7 +52,7 @@ decodeType : Decoder Type
 decodeType =
     lazy
         (\_ ->
-            decode (,)
+            decode Tuple.pair
                 |> optional "type" string ""
                 |> maybe "$ref" string
                 |> andThen decodeTypeByType
@@ -75,22 +90,23 @@ decodeRef : Decoder Type
 decodeRef =
     decode identity
         |> required "$ref" string
-        |> map (Ref_ << extractRef)
+        |> andThen extractRef
+        |> map Ref_
 
 
-extractRef : String -> Ref
+extractRef : String -> Decoder Ref
 extractRef ref =
     let
         parsed =
-            (List.head (Regex.find (Regex.AtMost 1) (regex "^#/definitions/(.+)$") ref))
+            List.head (Regex.findAtMost 1 (regex "^#/definitions/(.+)$") ref)
                 |> Maybe.andThen (List.head << .submatches)
     in
-        case parsed of
-            Just (Just ref_) ->
-                ref_
+    case parsed of
+        Just (Just ref_) ->
+            Json.succeed ref_
 
-            _ ->
-                Debug.crash "Unparseable reference " ++ ref
+        _ ->
+            Json.fail ("Unparseable reference " ++ ref)
 
 
 decodePrimitive : (Maybe String -> Type) -> Decoder Type
@@ -102,7 +118,7 @@ decodePrimitive constructor =
 
 decodeString : Decoder Type
 decodeString =
-    decode (,)
+    decode Tuple.pair
         |> maybe "default" decodeAlwaysString
         |> maybe "enum" (list string)
         |> map (apply2 stringOrEnum)
@@ -114,8 +130,8 @@ stringOrEnum default enum =
         Nothing ->
             String_ default
 
-        Just enum ->
-            Enum_ default enum
+        Just value ->
+            Enum_ default value
 
 
 decodeArray : Decoder Type
@@ -133,7 +149,7 @@ decodeDict =
 
 decodeObject : Decoder Type
 decodeObject =
-    decode (,,)
+    decode trio
         |> optional "required" (list string) []
         |> maybe "properties" (lazy (\_ -> keyValuePairs decodeType))
         |> maybe "additionalProperties" (lazy (\_ -> decodeType))
@@ -201,10 +217,18 @@ apply2 fn ( a, b ) =
 decodeAlwaysString : Decoder String
 decodeAlwaysString =
     oneOf
-        [ string |> map toString
-        , int |> map toString
-        , float |> map toString
-        , bool |> map toString
+        [ string
+        , int |> map String.fromInt
+        , float |> map String.fromFloat
+        , bool
+            |> map
+                (\b ->
+                    if b then
+                        "true"
+
+                    else
+                        "false"
+                )
         ]
 
 

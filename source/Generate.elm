@@ -1,39 +1,40 @@
-module Generate exposing (main, generate)
+module Generate exposing (generate, main)
 
-import Html exposing (text)
-import Html exposing (programWithFlags)
+import Generate.Swagger exposing (render)
 import Json.Decode as Decode exposing (decodeString)
+import Platform exposing (Program)
+import Ports
 import Swagger.Decode as Swagger exposing (decodeSwagger)
 import Swagger.Flatten exposing (flatten)
-import Generate.Swagger exposing (render)
 
 
-main : Program String String x
+type alias Flags =
+    String
+
+
+main : Program Flags () Never
 main =
-    programWithFlags
+    Platform.worker
         { init = init
-        , view = text << toOutput << generate
-        , update = always << always ( "", Cmd.none )
+        , update = \_ _ -> ( (), Cmd.none )
         , subscriptions = always Sub.none
         }
 
 
-init : String -> ( String, Cmd x )
+init : Flags -> ( (), Cmd Never )
 init json =
-    ( json, Cmd.none )
+    ( ()
+    , case generate json of
+        Ok result ->
+            Ports.printAndExitSuccess result
 
-
-toOutput : Result String String -> String
-toOutput result =
-    case result of
         Err err ->
-            Debug.log "error" err
-
-        Ok str ->
-            str
+            Ports.printAndExitFailure err
+    )
 
 
 generate : String -> Result String String
 generate json =
     decodeString decodeSwagger json
+        |> Result.mapError Decode.errorToString
         |> Result.map (flatten >> render)

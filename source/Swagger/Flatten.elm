@@ -1,23 +1,23 @@
 module Swagger.Flatten exposing (flatten)
 
-import Swagger.Swagger exposing (Swagger)
 import Swagger.Definition as Definition
     exposing
-        ( Definitions
-        , Definition
+        ( Definition
+        , Definitions
         , definition
-        , singleton
-        , getType
         , getName
+        , getType
+        , singleton
         )
+import Swagger.Swagger exposing (Swagger)
 import Swagger.Type
     exposing
-        ( Type(Object_, Array_, Dict_, String_, Enum_, Int_, Float_, Bool_, Ref_)
-        , Properties(Properties)
-        , Property(Required, Optional)
-        , Items(Items)
-        , getPropertyType
+        ( Items(..)
+        , Properties(..)
+        , Property(..)
+        , Type(..)
         , getPropertyName
+        , getPropertyType
         )
 
 
@@ -68,7 +68,7 @@ flattenEachRoot definition definitions =
                 Ref_ _ ->
                     definitions
     in
-        Definition.prepend definition newDefinitions
+    Definition.prepend definition newDefinitions
 
 
 flattenProperties : List String -> Properties -> Definitions -> Definitions
@@ -96,33 +96,33 @@ flattenType parentNames name type_ definitions =
             Definition.prepend
                 (definition (Just parentNames) name type_)
     in
-        case type_ of
-            Object_ props ->
-                flattenProperties childParentNames props definitions
-                    |> prependSelf
+    case type_ of
+        Object_ props ->
+            flattenProperties childParentNames props definitions
+                |> prependSelf
 
-            Array_ items ->
-                flattenItems childParentNames items definitions
-                    |> prependSelf
+        Array_ items ->
+            flattenItems childParentNames items definitions
+                |> prependSelf
 
-            Dict_ type_ ->
-                flattenType childParentNames "Property" type_ definitions
+        Dict_ typename ->
+            flattenType childParentNames "Property" typename definitions
 
-            Enum_ _ _ ->
-                definitions
-                    |> prependSelf
+        Enum_ _ _ ->
+            definitions
+                |> prependSelf
 
-            String_ _ ->
-                definitions
+        String_ _ ->
+            definitions
 
-            Int_ _ ->
-                definitions
+        Int_ _ ->
+            definitions
 
-            Float_ _ ->
-                definitions
+        Float_ _ ->
+            definitions
 
-            Bool_ _ ->
-                definitions
+        Bool_ _ ->
+            definitions
 
-            Ref_ _ ->
-                definitions
+        Ref_ _ ->
+            definitions

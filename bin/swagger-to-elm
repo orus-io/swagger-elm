@@ -1,7 +1,24 @@
 #!/usr/bin/env node
 
-var path = require("path");
-var stdio = require("node-elm-stdio/stdio/stdin");
-var Elm = require("../dist/elm.js");
+var Elm = require("../dist/elm.js").Elm;
 
-stdio(path.resolve(__dirname, "../dist/elm.js"), "Generate", false);
+var data = "";
+
+process.stdin.on("data", function (chunk) {
+  data += chunk;
+});
+
+process.stdin.on("end", function () {
+    var program = Elm.Generate.init({flags: data});
+
+    program.ports.printAndExitFailure.subscribe(message => {
+        console.log(message);
+        process.exit(1);
+    });
+    program.ports.printAndExitSuccess.subscribe(message => {
+        console.log(message);
+        process.exit(0);
+    });
+});
+
+

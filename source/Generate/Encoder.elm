@@ -1,19 +1,20 @@
 module Generate.Encoder exposing (..)
 
-import Generate.Utils exposing (typeName, encoderName, nestedEncoderName)
-import Swagger.Definition as Def exposing (Definition, getType, getFullName)
-import Swagger.Type exposing (getPropertyName, getPropertyType)
-import Codegen.Function exposing (function, arg, pipeline, letin, caseof, lazy)
+import Codegen.Function exposing (arg, caseof, function, lazy, letin, pipeline)
 import Codegen.List exposing (list)
 import Codegen.Literal exposing (string)
 import Codegen.Tuple exposing (tuple)
 import Codegen.Utils exposing (sanitize, uncapitalize)
+import Generate.Utils exposing (encoderName, nestedEncoderName, typeName)
+import Swagger.Definition as Def exposing (Definition, getFullName, getType)
 import Swagger.Type
     exposing
-        ( Type(Object_, Array_, Dict_, String_, Enum_, Int_, Float_, Bool_, Ref_)
-        , Properties(Properties)
-        , Property(Required, Optional, Default)
+        ( Properties(..)
+        , Property(..)
+        , Type(..)
         , getItemsType
+        , getPropertyName
+        , getPropertyType
         )
 
 
@@ -23,10 +24,10 @@ renderEncoder definition =
         name =
             getFullName definition
     in
-        function (encoderName <| name)
-            [ arg (typeName name) (maybeUnwrapType definition name) ]
-            ("Json.Encode.Value")
-            (renderEncoderBody definition)
+    function (encoderName <| name)
+        [ arg (typeName name) (maybeUnwrapType definition name) ]
+        "Json.Encode.Value"
+        (renderEncoderBody definition)
 
 
 maybeUnwrapType : Definition -> String -> String
@@ -100,7 +101,7 @@ renderArrayBody : String -> Type -> String
 renderArrayBody name type_ =
     "Json.Encode.list ("
         ++ "List.map "
-        ++ (renderPropertyEncoder name "Item" type_)
+        ++ renderPropertyEncoder name "Item" type_
         ++ " value"
         ++ ")"
 
@@ -108,7 +109,7 @@ renderArrayBody name type_ =
 renderDictBody : String -> Type -> String
 renderDictBody name typeName =
     "dictEncoder "
-        ++ (renderPropertyEncoder name "Property" typeName)
+        ++ renderPropertyEncoder name "Property" typeName
         ++ " value"
 
 
@@ -126,15 +127,15 @@ renderObjectProperty parentName property =
         propertyEncoder =
             renderPropertyEncoder parentName (getPropertyName property) (getPropertyType property)
     in
-        case property of
-            Required name type_ ->
-                tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
+    case property of
+        Required name type_ ->
+            tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
 
-            Optional name type_ ->
-                tuple (string name) ("Json.Encode.Extra.maybe " ++ propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
+        Optional name type_ ->
+            tuple (string name) ("Json.Encode.Extra.maybe " ++ propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
 
-            Default name type_ _ ->
-                tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
+        Default name type_ _ ->
+            tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
 
 
 renderPropertyEncoder : String -> String -> Type -> String

@@ -1,7 +1,12 @@
-module Codegen.Utils exposing (capitalize, uncapitalize, sanitize)
+module Codegen.Utils exposing (capitalize, sanitize, uncapitalize)
 
+import Regex exposing (Regex)
 import String
-import Regex exposing (HowMany(All), regex)
+
+
+regex : String -> Regex
+regex =
+    Regex.fromString >> Maybe.withDefault Regex.never
 
 
 capitalize : String -> String
@@ -67,6 +72,7 @@ sanitizeFirst str =
         Just ( head, tail ) ->
             if isValidFirst head then
                 String.cons head tail
+
             else
                 sanitizeFirst tail
 
@@ -81,7 +87,7 @@ isValidFirst str =
 
 sanitizeRest : String -> String
 sanitizeRest str =
-    Regex.find All (regex validChars) str
+    Regex.find (regex validChars) str
         |> List.map .match
         |> String.concat
 
@@ -112,5 +118,6 @@ santizeKeywords : String -> String
 santizeKeywords str =
     if List.member str keywords then
         str ++ "_"
+
     else
         str

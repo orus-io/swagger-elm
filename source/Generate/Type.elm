@@ -1,14 +1,14 @@
 module Generate.Type exposing (..)
 
-import Generate.Utils exposing (typeName, nestedTypeName)
+import Codegen.Type exposing (dict, list, maybe, record, recordField, typeAlias, unionType)
 import Codegen.Utils exposing (sanitize)
-import Codegen.Type exposing (typeAlias, unionType, record, recordField, list, dict, maybe)
-import Swagger.Definition as Def exposing (Definition, getType, getFullName)
+import Generate.Utils exposing (nestedTypeName, typeName)
+import Swagger.Definition as Def exposing (Definition, getFullName, getType)
 import Swagger.Type
     exposing
-        ( Type(Object_, Array_, Dict_, String_, Enum_, Int_, Float_, Bool_, Ref_)
-        , Properties(Properties)
-        , Property(Required, Optional, Default)
+        ( Properties(..)
+        , Property(..)
+        , Type(..)
         , getItemsType
         )
 
@@ -32,41 +32,40 @@ renderType definition =
             typeAlias <| name ++ "Record"
 
         arrayDecl =
-            (\body ->
+            \body ->
                 "type " ++ name ++ " = " ++ name ++ " (" ++ body ++ ")\n\n"
-            )
 
         recordDecl =
             "type " ++ name ++ " = " ++ name ++ " " ++ name ++ "Record \n\n"
     in
-        case type_ of
-            String_ _ ->
-                typeAliasDecl "String"
+    case type_ of
+        String_ _ ->
+            typeAliasDecl "String"
 
-            Int_ _ ->
-                typeAliasDecl "Int"
+        Int_ _ ->
+            typeAliasDecl "Int"
 
-            Float_ _ ->
-                typeAliasDecl "Float"
+        Float_ _ ->
+            typeAliasDecl "Float"
 
-            Bool_ _ ->
-                typeAliasDecl "Bool"
+        Bool_ _ ->
+            typeAliasDecl "Bool"
 
-            Enum_ _ enum ->
-                unionTypeDecl <| renderEnum name enum
+        Enum_ _ enum ->
+            unionTypeDecl <| renderEnum name enum
 
-            Object_ props ->
-                (objectDecl <| renderRecord name props)
-                    ++ recordDecl
+        Object_ props ->
+            (objectDecl <| renderRecord name props)
+                ++ recordDecl
 
-            Array_ items ->
-                arrayDecl <| list <| renderPropertyType name "Item" <| getItemsType items
+        Array_ items ->
+            arrayDecl <| list <| renderPropertyType name "Item" <| getItemsType items
 
-            Dict_ type_ ->
-                typeAliasDecl <| dict <| renderPropertyType name "Property" type_
+        Dict_ typename ->
+            typeAliasDecl <| dict <| renderPropertyType name "Property" typename
 
-            Ref_ ref ->
-                typeAliasDecl <| typeName ref
+        Ref_ ref ->
+            typeAliasDecl <| typeName ref
 
 
 renderEnum : String -> List String -> List String
