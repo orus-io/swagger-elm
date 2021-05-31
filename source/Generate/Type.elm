@@ -29,7 +29,8 @@ renderType definition =
             unionType name
 
         objectDecl =
-            typeAlias <| name ++ "Record"
+            --typeAlias <| name ++ "Record"
+            typeAlias <| name
 
         arrayDecl =
             \body ->
@@ -55,8 +56,9 @@ renderType definition =
             unionTypeDecl <| renderEnum name enum
 
         Object_ props ->
-            (objectDecl <| renderRecord name props)
-                ++ recordDecl
+            --(objectDecl <| renderRecord name props)
+            --    ++ recordDecl
+            objectDecl <| renderRecord name props
 
         Array_ items ->
             arrayDecl <| list <| renderPropertyType name "Item" <| getItemsType items

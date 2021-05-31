@@ -34,7 +34,8 @@ maybeUnwrapType : Definition -> String -> String
 maybeUnwrapType definition name =
     case getType definition of
         Object_ _ ->
-            "(" ++ typeName name ++ " value" ++ ")"
+            --"(" ++ typeName name ++ " value" ++ ")"
+            "value"
 
         Array_ _ ->
             "(" ++ typeName name ++ " value" ++ ")"

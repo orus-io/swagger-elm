@@ -43,7 +43,7 @@ Help and feedback would be gladly appreciated, but please just drop me a line
 - [x] Sanitization of identifiers
 - [x] Unit tests
 - [x] Dicts (additionalProperties)
-- [x] Recursive types and decoders
+- [ ] Recursive types and decoders
 - [x] Encoders
 - [ ] Polymorphism (allOf and discriminator)
 - [ ] Formats? (datetime, uuid, etc)

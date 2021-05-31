@@ -4053,18 +4053,11 @@ var $author$project$Generate$Decoder$renderObjectBody = F2(
 		var properties = _v0;
 		return A2(
 			$author$project$Codegen$Function$pipeline,
-			'Json.Decode.succeed ' + $author$project$Generate$Utils$typeName(name + 'Record'),
-			A3(
-				$author$project$Utils$flip,
-				$elm$core$Basics$append,
-				_List_fromArray(
-					[
-						'map ' + $author$project$Generate$Utils$typeName(name)
-					]),
-				A2(
-					$elm$core$List$map,
-					$author$project$Generate$Decoder$renderObjectDecoderProperty(name),
-					properties)));
+			'Json.Decode.succeed ' + $author$project$Generate$Utils$typeName(name),
+			A2(
+				$elm$core$List$map,
+				$author$project$Generate$Decoder$renderObjectDecoderProperty(name),
+				properties));
 	});
 var $author$project$Generate$Decoder$renderPrimitiveBody = function (type_) {
 	return type_;
@@ -4134,7 +4127,7 @@ var $author$project$Generate$Encoder$maybeUnwrapType = F2(
 		var _v0 = $author$project$Swagger$Definition$getType(definition);
 		switch (_v0.$) {
 			case 0:
-				return '(' + ($author$project$Generate$Utils$typeName(name) + (' value' + ')'));
+				return 'value';
 			case 1:
 				return '(' + ($author$project$Generate$Utils$typeName(name) + (' value' + ')'));
 			case 8:
@@ -4436,7 +4429,7 @@ var $author$project$Generate$Type$renderType = function (definition) {
 	var type_ = $author$project$Swagger$Definition$getType(definition);
 	var name = $author$project$Generate$Utils$typeName(
 		$author$project$Swagger$Definition$getFullName(definition));
-	var objectDecl = $author$project$Codegen$Type$typeAlias(name + 'Record');
+	var objectDecl = $author$project$Codegen$Type$typeAlias(name);
 	var recordDecl = 'type ' + (name + (' = ' + (name + (' ' + (name + 'Record \n\n')))));
 	var typeAliasDecl = $author$project$Codegen$Type$typeAlias(name);
 	var unionTypeDecl = $author$project$Codegen$Type$unionType(name);
@@ -4458,10 +4451,8 @@ var $author$project$Generate$Type$renderType = function (definition) {
 				A2($author$project$Generate$Type$renderEnum, name, _enum));
 		case 0:
 			var props = type_.a;
-			return _Utils_ap(
-				objectDecl(
-					A2($author$project$Generate$Type$renderRecord, name, props)),
-				recordDecl);
+			return objectDecl(
+				A2($author$project$Generate$Type$renderRecord, name, props));
 		case 1:
 			var items = type_.a;
 			return arrayDecl(

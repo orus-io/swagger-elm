@@ -79,8 +79,9 @@ renderObjectBody : String -> Properties -> String
 renderObjectBody name (Properties properties) =
     properties
         |> List.map (renderObjectDecoderProperty name)
-        |> flip (++) [ "map " ++ typeName name ]
-        |> pipeline ((++) "Json.Decode.succeed " <| typeName (name ++ "Record"))
+        --|> flip (++) [ "map " ++ typeName name ]
+        --|> pipeline ((++) "Json.Decode.succeed " <| typeName (name ++ "Record"))
+        |> pipeline ((++) "Json.Decode.succeed " <| typeName name)
 
 
 renderObjectDecoderProperty : String -> Property -> String
