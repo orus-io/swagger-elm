@@ -4244,7 +4244,7 @@ var $author$project$Generate$Encoder$renderObjectProperty = F2(
 			case 0:
 				var name = property.a;
 				var type_ = property.b;
-				return A2(
+				return 'Just ' + A2(
 					$author$project$Codegen$Tuple$tuple,
 					$author$project$Codegen$Literal$string(name),
 					propertyEncoder + (' value.' + $author$project$Codegen$Utils$uncapitalize(
@@ -4252,15 +4252,15 @@ var $author$project$Generate$Encoder$renderObjectProperty = F2(
 			case 1:
 				var name = property.a;
 				var type_ = property.b;
-				return A2(
+				return 'Maybe.map (\\v -> ' + (A2(
 					$author$project$Codegen$Tuple$tuple,
 					$author$project$Codegen$Literal$string(name),
-					'Json.Encode.Extra.maybe ' + (propertyEncoder + (' value.' + $author$project$Codegen$Utils$uncapitalize(
-						$author$project$Codegen$Utils$sanitize(name)))));
+					propertyEncoder + ' v') + (') value.' + $author$project$Codegen$Utils$uncapitalize(
+					$author$project$Codegen$Utils$sanitize(name))));
 			default:
 				var name = property.a;
 				var type_ = property.b;
-				return A2(
+				return 'Just ' + A2(
 					$author$project$Codegen$Tuple$tuple,
 					$author$project$Codegen$Literal$string(name),
 					propertyEncoder + (' value.' + $author$project$Codegen$Utils$uncapitalize(
@@ -4270,7 +4270,7 @@ var $author$project$Generate$Encoder$renderObjectProperty = F2(
 var $author$project$Generate$Encoder$renderObjectBody = F2(
 	function (name, _v0) {
 		var properties = _v0;
-		return 'Json.Encode.object ' + $author$project$Codegen$List$list(
+		return 'Json.Encode.object <| List.filterMap identity ' + $author$project$Codegen$List$list(
 			A2(
 				$elm$core$List$map,
 				$author$project$Generate$Encoder$renderObjectProperty(name),

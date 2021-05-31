@@ -116,7 +116,7 @@ renderObjectBody name (Properties properties) =
     properties
         |> List.map (renderObjectProperty name)
         |> list
-        |> (++) "Json.Encode.object "
+        |> (++) "Json.Encode.object <| List.filterMap identity "
 
 
 renderObjectProperty : String -> Property -> String
@@ -127,13 +127,13 @@ renderObjectProperty parentName property =
     in
     case property of
         Required name type_ ->
-            tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
+            "Just " ++ tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
 
         Optional name type_ ->
-            tuple (string name) ("Json.Encode.Extra.maybe " ++ propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
+            "Maybe.map (\\v -> " ++ tuple (string name) (propertyEncoder ++ " v") ++ ") value." ++ (uncapitalize <| sanitize name)
 
         Default name type_ _ ->
-            tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
+            "Just " ++ tuple (string name) (propertyEncoder ++ " value." ++ (uncapitalize <| sanitize name))
 
 
 renderPropertyEncoder : String -> String -> Type -> String
