@@ -75,7 +75,7 @@ renderEncoderBody definition =
             renderDictBody (getFullName definition) typeName
 
         Enum_ _ enum ->
-            renderEnumBody (getFullName definition) enum
+            renderEnumBody (getFullName definition |> typeName) enum
 
         String_ _ ->
             renderPrimitiveBody "string"

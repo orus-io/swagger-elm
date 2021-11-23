@@ -10,7 +10,7 @@ decoderName name =
 
 nestedDecoderName : String -> String -> String
 nestedDecoderName parentName name =
-    "decode" ++ typeName parentName ++ typeName name
+    "decode" ++ typeName (parentName ++ capitalize name)
 
 
 encoderName : String -> String
@@ -20,7 +20,7 @@ encoderName name =
 
 nestedEncoderName : String -> String -> String
 nestedEncoderName parentName name =
-    "encode" ++ typeName parentName ++ typeName name
+    "encode" ++ typeName (parentName ++ capitalize name)
 
 
 typeName : String -> String
@@ -30,14 +30,14 @@ typeName =
 
 nestedTypeName : String -> String -> String
 nestedTypeName parentName name =
-    typeName parentName ++ typeName name
+    typeName <| parentName ++ capitalize name
 
 
 enumValueTypeName : String -> String -> String
 enumValueTypeName name value =
     case value of
         "" ->
-            name ++ "_None"
+            typeName name ++ "_None"
 
         s ->
-            name ++ "_" ++ typeName s
+            typeName name ++ "_" ++ typeName s

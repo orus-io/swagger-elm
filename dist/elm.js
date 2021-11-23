@@ -3895,7 +3895,10 @@ var $author$project$Codegen$Function$lazy = function (body) {
 };
 var $author$project$Generate$Utils$nestedDecoderName = F2(
 	function (parentName, name) {
-		return 'decode' + ($author$project$Generate$Utils$typeName(parentName) + $author$project$Generate$Utils$typeName(name));
+		return 'decode' + $author$project$Generate$Utils$typeName(
+			_Utils_ap(
+				parentName,
+				$author$project$Codegen$Utils$capitalize(name)));
 	});
 var $author$project$Generate$Decoder$renderPropertyDecoder = F3(
 	function (parentName, name, type_) {
@@ -3971,10 +3974,10 @@ var $author$project$Codegen$Function$letin = F2(
 var $author$project$Generate$Utils$enumValueTypeName = F2(
 	function (name, value) {
 		if (value === '') {
-			return name + '_None';
+			return $author$project$Generate$Utils$typeName(name) + '_None';
 		} else {
 			var s = value;
-			return name + ('_' + $author$project$Generate$Utils$typeName(s));
+			return $author$project$Generate$Utils$typeName(name) + ('_' + $author$project$Generate$Utils$typeName(s));
 		}
 	});
 var $author$project$Codegen$Literal$string = function (str) {
@@ -4150,7 +4153,10 @@ var $author$project$Generate$Encoder$maybeUnwrapType = F2(
 	});
 var $author$project$Generate$Utils$nestedEncoderName = F2(
 	function (parentName, name) {
-		return 'encode' + ($author$project$Generate$Utils$typeName(parentName) + $author$project$Generate$Utils$typeName(name));
+		return 'encode' + $author$project$Generate$Utils$typeName(
+			_Utils_ap(
+				parentName,
+				$author$project$Codegen$Utils$capitalize(name)));
 	});
 var $author$project$Generate$Encoder$renderPropertyEncoder = F3(
 	function (parentName, name, type_) {
@@ -4297,7 +4303,8 @@ var $author$project$Generate$Encoder$renderEncoderBody = function (definition) {
 			var _enum = _v0.b;
 			return A2(
 				$author$project$Generate$Encoder$renderEnumBody,
-				$author$project$Swagger$Definition$getFullName(definition),
+				$author$project$Generate$Utils$typeName(
+					$author$project$Swagger$Definition$getFullName(definition)),
 				_enum);
 		case 3:
 			return $author$project$Generate$Encoder$renderPrimitiveBody('string');
@@ -4343,9 +4350,10 @@ var $author$project$Generate$Type$renderEnum = function (name) {
 };
 var $author$project$Generate$Utils$nestedTypeName = F2(
 	function (parentName, name) {
-		return _Utils_ap(
-			$author$project$Generate$Utils$typeName(parentName),
-			$author$project$Generate$Utils$typeName(name));
+		return $author$project$Generate$Utils$typeName(
+			_Utils_ap(
+				parentName,
+				$author$project$Codegen$Utils$capitalize(name)));
 	});
 var $author$project$Generate$Type$renderPropertyType = F3(
 	function (parentName, name, type_) {
